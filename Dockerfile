@@ -1,11 +1,9 @@
-FROM node:22-alpine
+FROM node:20-slim
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --ignore-scripts
-COPY tsconfig.json ./
-COPY src/ ./src/
+RUN npm install
+COPY . .
 RUN npm run build
 EXPOSE 3000
-ENV NODE_ENV=production
-ENTRYPOINT ["node", "build/main/main/cli.js"]
-CMD ["http"]
+# Dit is de 'NetworkChuck bridge' die van een lokale tool een n8n-server maakt:
+CMD ["npx", "-y", "@modelcontextprotocol/inspector", "build/main/main/cli.js"]
